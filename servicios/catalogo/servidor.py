@@ -32,10 +32,35 @@ class CatalogoServicio(catalogo_pb2_grpc.CatalogoServicer):
     def ListarCategoria(self, request, context):
         # STREAMING: entrega VARIAS cajas con yield
         # TODO
+        
         # Si request.categoria viene vacía: context.abort(grpc.StatusCode.INVALID_ARGUMENT, ...)
         # Si ningún producto tiene esa categoría: context.abort(grpc.StatusCode.NOT_FOUND, ...)
         # Si hay: por cada producto de esa categoría, espera 0.5 s y haz yield de un catalogo_pb2.Producto.
-        context.abort(grpc.StatusCode.UNIMPLEMENTED, "Falta implementar ListarCategoria")
+        if not request.categoria:
+            context.abort(
+                grpc.StatusCode.INVALID_ARGUMENT,
+                "La categoría no puede estar vacía",
+            )
+
+        productos = [
+            (clave, nombre, precio_centavos, categoria)
+            for clave, (nombre, precio_centavos, categoria) in PRODUCTOS.items()
+            if categoria == request.categoria
+        ]
+        if not productos:
+            context.abort(
+                grpc.StatusCode.NOT_FOUND,
+                f"No existen productos de la categoría {request.categoria}",
+            )
+
+        for clave, nombre, precio_centavos, categoria in productos:
+            time.sleep(0.5)
+            yield catalogo_pb2.Producto(
+                clave=clave,
+                nombre=nombre,
+                precio_centavos=precio_centavos,
+                categoria=categoria,
+            )
 
 
 servidor = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
