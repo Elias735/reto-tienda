@@ -2,7 +2,7 @@
 
 - **Nuestro servicio:** Catálogo · puerto 50051 · contrato `catalogo.proto`
 - **Servicio que consumimos (vecino):** Inventario · puerto 50052 · contrato `inventario.proto`
-- **Repositorio del equipo vecino:** (pega aquí la URL)
+- **Repositorio del equipo vecino:** (https://github.com/Omar050928/Inventario)
 
 | Integrante | Matrícula | Rol |
 |---|---|---|
@@ -29,6 +29,6 @@ Enlaces a los issues que abrieron en el repositorio del vecino o que les abriero
 
 ## Uso de IA (Acuerdo No. 23/2024 UdeC)
 
-¿Usaron IA? ¿Cuál, quién y para qué? (por ejemplo: "Copilot para el for de la parte 3; lo revisamos línea por línea").
+Se utiizo el agente de visual studio (copilot) para coreccion y revision de cada linea del servidor 
 
 -
