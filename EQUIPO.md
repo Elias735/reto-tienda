@@ -8,6 +8,8 @@
 |---|---|---|
 | | | Servidor |
 |Diego Verduzco |20205116 | Cliente |
+|Elias Vazquez |20206634| Servidor |
+
 | | | Integración (README, issues y prueba cruzada) |
 
 ## Prueba cruzada

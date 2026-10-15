@@ -22,12 +22,21 @@ PRODUCTOS = {
 class CatalogoServicio(catalogo_pb2_grpc.CatalogoServicer):
 
     def ObtenerProducto(self, request, context):
-        # UNARIO: regresa UNA caja con return
-        # TODO
-        # Busca request.clave en PRODUCTOS.
-        # Si no existe: context.abort(grpc.StatusCode.NOT_FOUND, "No existe el producto ...")
-        # Si existe: regresa un catalogo_pb2.Producto con sus 4 campos.
-        context.abort(grpc.StatusCode.UNIMPLEMENTED, "Falta implementar ObtenerProducto")
+            # UNARIO: regresa UNA caja con return
+            producto = PRODUCTOS.get(request.clave)
+            if producto is None:
+                context.abort(
+                    grpc.StatusCode.NOT_FOUND,
+                    f"No existe el producto {request.clave}",
+                )
+    
+            nombre, precio_centavos, categoria = producto
+            return catalogo_pb2.Producto(
+                clave=request.clave,
+                nombre=nombre,
+                precio_centavos=precio_centavos,
+                categoria=categoria,
+            )
 
     def ListarCategoria(self, request, context):
         # STREAMING: entrega VARIAS cajas con yield
