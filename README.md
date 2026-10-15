@@ -31,10 +31,20 @@ El contrato de cada uno, con sus reglas y los datos para probar, está en `servi
 
 **3. Prepáralo con tu servicio y el de tu vecino** (te los da el profesor en el sorteo):
 
+VERSIÓN DEL MAESTRO:
+> [!WARNING] 
+> El script de compilar no sirve debido a que está pensado para correrse en un entorno local y codespaces no deja hacer esto
 ```bash
 python preparar.py <tu_servicio> <servicio_vecino>
 bash compilar.sh
 ```
+
+VERSIÓN CORREGIDA:
+```bash
+python preparar.py <tu_servicio> <servicio_vecino>
+source setup.sh
+```
+
 
 **4. Terminal 1 · Su servidor.** Completen los `TODO` de `servidor.py` y córranlo:
 
