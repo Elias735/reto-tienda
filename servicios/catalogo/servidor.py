@@ -21,22 +21,36 @@ PRODUCTOS = {
 
 class CatalogoServicio(catalogo_pb2_grpc.CatalogoServicer):
 
-    def ObtenerProducto(self, request, context):
-        # UNARIO: regresa UNA caja con return
-        producto = PRODUCTOS.get(request.clave)
-        if producto is None:
-            context.abort(
-                grpc.StatusCode.NOT_FOUND,
-                f"No existe el producto {request.clave}",
-            )
+def ObtenerProducto(self, request, context):
+    clave = request.clave
 
-        nombre, precio_centavos, categoria = producto
-        return catalogo_pb2.Producto(
-            clave=request.clave,
-            nombre=nombre,
-            precio_centavos=precio_centavos,
-            categoria=categoria,
+    # Validar el formato de la clave
+    if not re.fullmatch(r"P\d{3}", clave):
+        context.abort(
+            grpc.StatusCode.INVALID_ARGUMENT,
+            "Formato de clave: P y 3 dígitos",
         )
+
+    # Buscar el producto
+    producto = PRODUCTOS.get(clave)
+
+    # Verificar si existe
+    if producto is None:
+        context.abort(
+            grpc.StatusCode.NOT_FOUND,
+            f"No existe el producto {clave}",
+        )
+
+    # Extraer los datos del producto
+    nombre, precio_centavos, categoria = producto
+
+    # Regresar un solo producto
+    return catalogo_pb2.Producto(
+        clave=clave,
+        nombre=nombre,
+        precio_centavos=precio_centavos,
+        categoria=categoria,
+    )
     def ListarCategoria(self, request, context):
         # STREAMING: entrega VARIAS cajas con yield
         # TODO
