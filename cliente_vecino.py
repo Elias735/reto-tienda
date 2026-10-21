@@ -23,7 +23,7 @@ print(
 print("\n=== Parte 2 · ConsultarExistencia con un dato que provoca error ===\n")
 # TODO: llama con un dato que provoque error, dentro de try/except grpc.RpcError,
 #       e imprime e.code() y e.details(). El programa NO debe tronar.
-peticion_error = inventario_pb2.ExistenciaRequest(clave="P999")
+peticion_error = inventario_pb2.ExistenciaRequest(clave="ABC")
 try:
     stub.ConsultarExistencia(peticion_error)
 except grpc.RpcError as e:
@@ -34,8 +34,9 @@ except grpc.RpcError as e:
 print("\n=== Parte 3 · VigilarExistencia (streaming) ===\n")
 # TODO: recorre stub.VigilarExistencia(...) con for e imprime cada caja en cuanto llegue.
 #       Ponlo también dentro de try/except por si el servidor regresa un error.
+peticion_invalida = inventario_pb2.ExistenciaRequest(clave="P999")
 try:
-    for actualizacion in stub.VigilarExistencia(peticion_valida):
+    for actualizacion in stub.VigilarExistencia(peticion_invalida):
         print(
             f"Clave: {actualizacion.clave} | "
             f"Cantidad: {actualizacion.cantidad} | "
